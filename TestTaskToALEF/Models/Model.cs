@@ -10,10 +10,10 @@ namespace TestTaskToALEF.Models
     {
         public int Id { get; set;}
         [Required]
-        [MinLength(3), MaxLength(3)]
-        public int Value { get; set; }  
+        //[MinLength(3), MaxLength(3)]
+        public string Value { get; set; }  
         [Required]
-        [MaxLength(20)]
+        //[MaxLength(20)]
         public string Name { get; set; }
     }
 }

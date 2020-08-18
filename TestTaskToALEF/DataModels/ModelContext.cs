@@ -1,21 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TestTaskToALEF.Models;
 
 namespace TestTaskToALEF.DataModels
 {
     public class ModelContext : DbContext
     {
-        public ModelContext(DbContextOptions<ModelContext> options)
-            :base(options)
+        public ModelContext(DbContextOptions<ModelContext> options):base(options)
         {
-            Database.EnsureCreated();
+            Database.Migrate();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<ModelData>().HasData(new ModelData { Id = 1, Value = "066", Name = "Vodafone" });
+            modelBuilder.Entity<ModelData>().HasData(new ModelData { Id = 2, Value = "093", Name = "Lifecell" });
         }
 
-        public DbSet<Model> models { get; set; }
+        public DbSet<ModelData> Models { get; set; }
     }
 }

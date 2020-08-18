@@ -1,15 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using TestTaskToALEF.DataModels;
+using TestTaskToALEF.Mappers;
 using TestTaskToALEF.Services;
 
 namespace TestTaskToALEF
@@ -25,14 +23,22 @@ namespace TestTaskToALEF
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
             services.AddRazorPages();
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ModelContext>(options => options.UseMySql(connectionString));
-            services.AddSingleton<IModelService, ModelService>();
+            services.AddScoped<IModelService, ModelService>();
+            services.AddAutoMapper(typeof(MappingEntity));
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseStatusCodePages();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -43,7 +49,9 @@ namespace TestTaskToALEF
                 app.UseHsts();
             }
 
+            
             app.UseHttpsRedirection();
+            app.UseDefaultFiles();
             app.UseStaticFiles();
             
 
@@ -51,11 +59,17 @@ namespace TestTaskToALEF
 
             app.UseAuthorization();
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}");
             });
         }
     }
