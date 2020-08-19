@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using TestTaskToALEF.Models;
+using TestTaskToALEF.Services;
 
 namespace TestTaskToALEF.Pages
 {
@@ -12,7 +14,7 @@ namespace TestTaskToALEF.Pages
     {
         private readonly ILogger<IndexModel> _logger;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel( ILogger<IndexModel> logger)
         {
             _logger = logger;
         }

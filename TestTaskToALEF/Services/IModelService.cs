@@ -15,7 +15,7 @@ namespace TestTaskToALEF.Services
 
         Task<Model> GetModelAsync(int id);
 
-        Task EditModelAsync(ModelData model);
+        Task EditModelAsync(Model model);
 
         Task DeleteModelAsync(int id);
 

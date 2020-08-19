@@ -35,9 +35,10 @@ namespace TestTaskToALEF.Services
             await _modelContext.SaveChangesAsync();
         }
 
-        public Task EditModelAsync(ModelData model)
+        public Task EditModelAsync(Model model)
         {
-            return Task.FromResult(new Model { Id = model.Id, Value = model.Value, Name = model.Name });
+            var data = _mapper.Map<ModelData>(model);
+            return Task.FromResult(new Model { Id = data.Id, Value = data.Value, Name = data.Name });
         }
 
         public async Task<Model> GetModelAsync(int id)

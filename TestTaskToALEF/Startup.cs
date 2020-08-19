@@ -1,4 +1,6 @@
 using AutoMapper;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +10,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using TestTaskToALEF.DataModels;
 using TestTaskToALEF.Mappers;
+using TestTaskToALEF.Models;
 using TestTaskToALEF.Services;
+using TestTaskToALEF.Validations;
 
 namespace TestTaskToALEF
 {
@@ -23,13 +27,23 @@ namespace TestTaskToALEF
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-            services.AddRazorPages();
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<ModelContext>(options => options.UseMySql(connectionString));
-            services.AddScoped<IModelService, ModelService>();
-            services.AddAutoMapper(typeof(MappingEntity));
+            //Fluent Validation
+            services.AddMvc().AddFluentValidation();
+            services.AddTransient<IValidator<Model>, ModelValidator>();
 
+            services.AddRazorPages();
+
+            var connectionString = Configuration
+                .GetConnectionString("DefaultConnection");//Getting Connection string
+            services.AddDbContext<ModelContext>(options 
+                => options.UseMySql(connectionString));
+
+            services.AddScoped<IModelService, ModelService>();
+
+
+            services.AddAutoMapper(typeof(MappingEntity));//adding mapper
+
+            //Swagger
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
@@ -60,6 +74,8 @@ namespace TestTaskToALEF
             app.UseAuthorization();
 
             app.UseSwagger();
+
+
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
