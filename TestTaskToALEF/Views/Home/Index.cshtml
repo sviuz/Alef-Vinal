@@ -8,70 +8,75 @@
 <html>
 <head>
     <link href="~/css/style.css" type="text/css" rel="stylesheet"/>
+    
 </head>
-<body class="headlineFont">
+<body class="nk147Font">
     <nav class="navbar navbar-dark">
-        
+
     </nav>
-    <div>
-        <table>
-            <tr>
-                <td>Name</td>
-                <td>Value</td>
-            </tr>
-            @foreach (var m in Model)
+    <main class="main">
+        <div class="list">
+            <table class="list-table">
+                <thead class="list-table-thead">
+                    <tr class="list-table-thead-tr">
+                        <th class="list-table-thead-tr-th">Name</th>
+                        <th class="list-table-thead-tr-th">Value</th>
+                    </tr>
+                </thead>
+                @foreach (var m in Model)
+                {
+                    <tr class="list-table-tr" data-id="@m.Id">
+                        <td class="list-table-td">@m.Value</td>
+                        <td class="list-table-td">@m.Name</td>
+                    </tr>
+                }
+            </table>
+        </div>
+
+        <div>
+            @using (Html.BeginForm("Add", "Home", FormMethod.Post))
             {
-                <tr>
-                    <td>@m.Value</td>
-                    <td>@m.Name</td>
-                </tr>
+                <table>
+                    <tr>
+                        <td>Value:</td>
+                        <td><input type="text" maxlength="3" required name="Value" pattern="[0-9]{3}" /> </td>
+                    </tr>
+                    <tr>
+                        <td>Name:</td>
+                        <td><input type="text" required name="Name" /> </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="submit" value="Создать" />
+                        </td>
+                    </tr>
+                </table>
             }
-        </table>
-    </div>
+        </div>
 
-    <div>
-        @using (Html.BeginForm("Add", "Home", FormMethod.Post))
-        {
-            <table>
-                <tr>
-                    <td>Value:</td>
-                    <td><input type="text" maxlength="3" required name="Value" pattern="[0-9]{3}" /> </td>
-                </tr>
-                <tr>
-                    <td>Name:</td>
-                    <td><input type="text" required name="Name" /> </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="submit" value="Создать" />
-                    </td>
-                </tr>
-            </table>
-        }
-    </div>
-
-    <div>
-        @using (Html.BeginForm("Edit", "Home", FormMethod.Post))
-        {
-            <table>
-                <tr>
-                    <td>Id</td>
-                    <td><input type="text" name="id" /></td>
-                </tr>
-                <tr>
-                    <td>Value:</td>
-                    <td><input type="text" maxlength="3" required name="value" pattern="[0-9]{3}" /> </td>
-                </tr>
-                <tr>
-                    <td>Name</td>
-                    <td><input type="text" name="name" /></td>
-                </tr>
-                <tr>
-                    <td><input type="submit" value="Изменить" /></td>
-                </tr>
-            </table>
-        }
-    </div>
-
+        <div>
+            @using (Html.BeginForm("Edit", "Home", FormMethod.Post))
+            {
+                <table>
+                    <tr>
+                        <td>Id</td>
+                        <td><input type="text" name="id" /></td>
+                    </tr>
+                    <tr>
+                        <td>Value:</td>
+                        <td><input type="text" maxlength="3" required name="value" pattern="[0-9]{3}" /> </td>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td><input type="text" name="name" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" value="Изменить" /></td>
+                    </tr>
+                </table>
+            }
+        </div>
+    </main>
+    <script src="~/js/events.js"></script>
 </body>
 </html>
