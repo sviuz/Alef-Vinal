@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Dynamic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TestTaskToALEF.DataModels;
 using TestTaskToALEF.Models;
@@ -22,24 +17,22 @@ namespace TestTaskToALEF.Controllers
 
         public async Task<IActionResult> Index()
         {
-            dynamic data = new ExpandoObject();
-            data.Models = await _modelService.GetModelsAsync();
-            return View(data);
+            var models = await _modelService.GetModelsAsync();
+            return View(models);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(Model model)
+        public async Task<IActionResult> Add(Model model)
         {
             await _modelService.AddModelAsync(model);
-            return Redirect("/Home/Index");
+            return Redirect("~/Home/Index");
         }
 
-        [HttpPut("Id")]
-        public async Task<IActionResult> Index(int id)
+        [HttpPost]
+        public async Task<IActionResult> Edit(ModelData model)
         {
-            var data = await _modelService.GetModelAsync(id);
-            await _modelService.EditModelAsync(data);
-            return Redirect("/Home/Index");
+            await _modelService.EditModelAsync(model);
+            return Redirect("~/Home/Index");
         }
     }
 }

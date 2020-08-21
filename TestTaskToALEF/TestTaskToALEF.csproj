@@ -22,4 +22,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Add_Data\" />
+  </ItemGroup>
+
 </Project>

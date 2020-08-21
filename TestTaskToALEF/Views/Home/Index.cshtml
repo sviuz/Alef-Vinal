@@ -1,6 +1,5 @@
-﻿@using TestTaskToALEF.DataModels
-@model dynamic
-
+﻿@using TestTaskToALEF.Models
+@model IEnumerable<Model>
 @section Footer{
     <h6>Developed by Sviuz 2020</h6>
 }
@@ -11,13 +10,16 @@
     <link href="~/css/style.css" type="text/css" rel="stylesheet"/>
 </head>
 <body class="headlineFont">
+    <nav class="navbar navbar-dark">
+        
+    </nav>
     <div>
         <table>
             <tr>
                 <td>Name</td>
                 <td>Value</td>
             </tr>
-            @foreach (var m in Model.Models)
+            @foreach (var m in Model)
             {
                 <tr>
                     <td>@m.Value</td>
@@ -26,16 +28,18 @@
             }
         </table>
     </div>
+
     <div>
-        <form method="post">
+        @using (Html.BeginForm("Add", "Home", FormMethod.Post))
+        {
             <table>
                 <tr>
                     <td>Value:</td>
-                    <td><input type="text" name="Value" /> </td>
+                    <td><input type="text" maxlength="3" required name="Value" pattern="[0-9]{3}" /> </td>
                 </tr>
                 <tr>
                     <td>Name:</td>
-                    <td><input type="text" name="Name" /> </td>
+                    <td><input type="text" required name="Name" /> </td>
                 </tr>
                 <tr>
                     <td>
@@ -43,36 +47,31 @@
                     </td>
                 </tr>
             </table>
-        </form>
+        }
     </div>
+
     <div>
-        <form method="put">
+        @using (Html.BeginForm("Edit", "Home", FormMethod.Post))
+        {
             <table>
                 <tr>
                     <td>Id</td>
-                    <td><input type="number" name="Id" /></td>
+                    <td><input type="text" name="id" /></td>
                 </tr>
                 <tr>
                     <td>Value:</td>
-                    <td><input type="text" name="Name" /></td>
+                    <td><input type="text" maxlength="3" required name="value" pattern="[0-9]{3}" /> </td>
                 </tr>
                 <tr>
-                    <td>
-                        Name
-                    </td>
-                    <td>
-                        <input type="text" name="Description" />
-                    </td>
+                    <td>Name</td>
+                    <td><input type="text" name="name" /></td>
                 </tr>
                 <tr>
-                    <td>
-                        <input type="submit" value="Изменить" />
-                    </td>
+                    <td><input type="submit" value="Изменить" /></td>
                 </tr>
             </table>
-        </form>
+        }
     </div>
-
 
 </body>
 </html>

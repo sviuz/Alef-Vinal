@@ -35,22 +35,32 @@ namespace TestTaskToALEF.Services
             await _modelContext.SaveChangesAsync();
         }
 
-        public Task EditModelAsync(Model model)
+        public async Task EditModelAsync(ModelData model)
         {
-            var data = _mapper.Map<ModelData>(model);
-            return Task.FromResult(new Model { Id = data.Id, Value = data.Value, Name = data.Name });
+            //var newModel = _modelContext.Models
+            //    .Where(m => m.Id == model.Id)
+            //    .AsNoTracking()
+            //    .FirstOrDefault();
+            //_modelContext.Models.Remove(newModel);
+            //_modelContext.Models.Add(newModel);
+            _modelContext.Entry(model).State = EntityState.Modified;
+            _modelContext.Models.Update(model);
+            await _modelContext.SaveChangesAsync();
         }
 
         public async Task<Model> GetModelAsync(int id)
         {
-            var data = _modelContext.Models.FirstOrDefault(m => m.Id == id);
+            var data = _modelContext.Models.AsNoTracking().FirstOrDefault(m => m.Id == id);
             return new Model { Id = data.Id, Name = data.Name, Value = data.Value };
         }
 
-        public async Task<IEnumerable<ModelData>> GetModelsAsync()
+        public async Task<IEnumerable<Model>> GetModelsAsync()
         {
-            var data = _modelContext.Models.AsNoTracking().AsEnumerable();
-            return data;
+            var models = _mapper.Map<IEnumerable<Model>>(
+                _modelContext.Models
+                .AsNoTracking().AsEnumerable()
+                );
+            return models;
         }
     }
 }

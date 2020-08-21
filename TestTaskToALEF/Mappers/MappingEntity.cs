@@ -9,6 +9,7 @@ namespace TestTaskToALEF.Mappers
         public MappingEntity()
         {
             CreateMap<Model, ModelData>();
+            CreateMap<ModelData, Model>();
         }
     }
 }
