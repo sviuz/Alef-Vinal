@@ -11,9 +11,9 @@ namespace TestTaskToALEF.Validations
     {
         public ModelValidator()
         {
-            RuleFor(m => m.Id).NotNull();
-            RuleFor(m => m.Value).NotEmpty().Length(0,3);
-            RuleFor(m => m.Name).NotEmpty();
+            RuleFor(m => m.Id).NotNull();//поле Id не должно быть пустым
+            RuleFor(m => m.Value).NotEmpty().Length(0,3);//поле value не должно быть в пределах от 0 до 3
+            RuleFor(m => m.Name).NotEmpty();//поле Name не должно быть пустым
         }
     }
 }

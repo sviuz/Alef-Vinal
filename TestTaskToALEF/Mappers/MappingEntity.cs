@@ -8,8 +8,8 @@ namespace TestTaskToALEF.Mappers
     {
         public MappingEntity()
         {
-            CreateMap<Model, ModelData>();
-            CreateMap<ModelData, Model>();
+            CreateMap<Model, ModelData>();//"преобразование" типа Model в тип ModelData
+            CreateMap<ModelData, Model>();//преобразование типа ModelData в тип Model
         }
     }
 }
